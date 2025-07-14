@@ -14,7 +14,11 @@ type LogEntry struct {
 
 var logs []LogEntry
 
-func generateLogs() LogEntry {
+func GenerateLogs() LogEntry {
+	//to substitute rand.Seed since it seems deprecated
+	source := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(source)
+
 	levels := []string{"INFO", "WARN", "ERROR"}
 	services := []string{"auth", "api", "search", "stream"}
 	messages := []string{
@@ -29,8 +33,8 @@ func generateLogs() LogEntry {
 
 	return LogEntry{
 		Timestamp: time.Now(),
-		Level:     levels[rand.Intn(len(levels))],
-		Service:   services[rand.Intn(len(services))],
-		Message:   messages[rand.Intn(len(messages))],
+		Level:     levels[r.Intn(len(levels))],
+		Service:   services[r.Intn(len(services))],
+		Message:   messages[r.Intn(len(messages))],
 	}
 }
