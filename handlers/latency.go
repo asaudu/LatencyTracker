@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"latencytracker/metrics"
 	"math/rand"
 	"net/http"
 	"time"
@@ -10,6 +11,7 @@ import (
 
 func LatencySimulator(c *gin.Context) {
 	rand.Seed(time.Now().UnixNano())
+	metrics.TheCounter.Inc()
 
 	delay := rand.Intn(900) + 100
 	time.Sleep(time.Duration(delay) * time.Millisecond)

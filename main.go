@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"latencytracker/handlers"
+	"latencytracker/metrics"
 	"latencytracker/middleware"
 	"latencytracker/prometheus"
 	"math/rand"
@@ -17,6 +18,8 @@ func main() {
 	go func() {
 		for {
 			logEntry := middleware.GenerateLogs()
+
+			metrics.LogCounter.WithLabelValues(logEntry.Level).Inc()
 
 			data, _ := json.Marshal(logEntry)
 			fmt.Println(string(data))
